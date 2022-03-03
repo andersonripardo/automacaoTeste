@@ -1,10 +1,14 @@
 package tests;
 
+import org.easetech.easytest.annotation.DataLoader;
+import org.easetech.easytest.annotation.Param;
+import org.easetech.easytest.runner.DataDrivenTestRunner;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TestName;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -18,6 +22,9 @@ import suporte.Screenshot;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.Assert.assertEquals;
+
+@RunWith(DataDrivenTestRunner.class)
+@DataLoader(filePaths = "informacoesUsuarioTestData.csv")
 
 public class InformacoesUsuarioTest {
     private WebDriver navegador;
@@ -59,7 +66,9 @@ public class InformacoesUsuarioTest {
         navegador.findElement(By.linkText("MORE DATA ABOUT YOU")).click();
     }
     @Test
-    public void testAdicionarUmaInformacaoAdicionalDoUsuario() {
+    public void testAdicionarUmaInformacaoAdicionalDoUsuario(@Param(name="tipo")String tipo, @Param(name="contato")String contato,
+     @Param(name="mensagem")String mensagemEsperada
+    ) {
 
         //Clicar no botão atraves do Xpath //button[@data-target="addmoredata"]
         navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
@@ -69,10 +78,10 @@ public class InformacoesUsuarioTest {
 
         //No combo de name "type" escolher a opção "Phone"
         WebElement campoType = popupAddMoreData.findElement(By.name("type"));
-        new Select(campoType).selectByVisibleText("Phone");
+        new Select(campoType).selectByVisibleText(tipo);
 
         //No campo de name "contat" inserir +859123456789
-        popupAddMoreData.findElement(By.name("contact")).sendKeys("+859123456789");
+        popupAddMoreData.findElement(By.name("contact")).sendKeys(contato);
 
         //Clicar no link de text "Save" que esta no popup
         popupAddMoreData.findElement(By.linkText("SAVE")).click();
@@ -80,10 +89,10 @@ public class InformacoesUsuarioTest {
         //Na mensagem de id "toast-container" validar que o texto "Your contact has been added!"
         WebElement mesnagemPop = navegador.findElement(By.id("toast-container"));
         String mensagem = mesnagemPop.getText();
-        assertEquals("Your contact has been added!", mensagem);
+        assertEquals(mensagemEsperada, mensagem);
 
-        String screenshotArquivo = "C:\\Users\\anderson_maciel\\Desktop\\Estudo_Selenium_WEBDriver\\src\\screenshot\\" + Generator.dataHoraParaArquivo() + test.getMethodName() + ".png";
-        Screenshot.tirar(navegador, screenshotArquivo);
+        /*String screenshotArquivo = "C:\\Users\\anderson_maciel\\Desktop\\Estudo_Selenium_WEBDriver\\src\\screenshot\\" + Generator.dataHoraParaArquivo() + test.getMethodName() + ".png";
+        Screenshot.tirar(navegador, screenshotArquivo);*/
     }
 
     @Test
