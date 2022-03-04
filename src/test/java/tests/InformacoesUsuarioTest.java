@@ -12,16 +12,15 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import suporte.Generator;
 import suporte.Screenshot;
-
-import java.util.concurrent.TimeUnit;
+import suporte.Web;
 
 import static org.junit.Assert.assertEquals;
+
 
 @RunWith(DataDrivenTestRunner.class)
 @DataLoader(filePaths = "informacoesUsuarioTestData.csv")
@@ -34,14 +33,7 @@ public class InformacoesUsuarioTest {
 
     @Before
     public void setUp(){
-        // Abrindo o navegador
-        System.setProperty("webdriver.chrome.driver", "C:\\Users\\anderson_maciel\\Documents\\drivers\\chromedriver_win32\\chromedriver.exe");
-        navegador = new ChromeDriver();
-        navegador.manage().window().maximize();
-        navegador.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-
-        //Navegando para a pagina do taskit
-        navegador.get("http://www.juliodelima.com.br/taskit");
+        navegador = Web.createChrome();
 
         //Clicar no link que possui o texto Sign in
         WebElement linkSignIn = navegador.findElement(By.linkText("Sign in"));
