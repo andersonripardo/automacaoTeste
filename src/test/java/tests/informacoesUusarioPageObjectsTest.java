@@ -17,8 +17,9 @@ public class informacoesUusarioPageObjectsTest {
     @Test
     public void testAdicionarUmaInformacaoAdicionalDoUsuario(){
         new LoginPage(navegador)
-                .clickSignIn()
-                .typeLogin("anderson002");
+                .clicarSignIn()
+                .fazerLogin("anderson002","123456")
+                .clicarMe();
     }
 
     @After
