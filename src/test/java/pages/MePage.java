@@ -13,4 +13,10 @@ public class MePage extends BasePage{
 
         return this;
     }
+
+    public AddContactPage clicarBotaoAddMoreDataAboutYou(){
+        navegador.findElement(By.xpath("//button[@data-target=\"addmoredata\"]")).click();
+        return new AddContactPage(navegador);
+
+    }
 }
